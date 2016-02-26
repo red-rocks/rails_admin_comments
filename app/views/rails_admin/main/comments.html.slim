@@ -1,0 +1,33 @@
+#rails_admin_comments_wrapper
+  = stylesheet_link_tag 'rails_admin/rails_admin_comments'
+  = javascript_include_tag 'rails_admin/rails_admin_comments'
+
+  #rails_admin_comments
+
+    - url = comments_path(model_name: @abstract_model, id: @object.id)
+    .controls
+      - @comments.each do |c|
+        p
+          = c.inspect
+          - edit_form_id = "comment_#{c.id}_edit"
+          = link_to 'edit', "##{edit_form_id}", class: 'comment_edit_form_link'
+          .comment_edit_form.hidden{id="#{edit_form_id}"}
+            - if @comment and @comment._id == c._id
+              - c = @comment
+              - unless @message.blank?
+                p== @message
+                - @comment = @message = nil
+              
+            = form_for c, url: url, method: :post do |f|
+              p= f.hidden_field :id
+              p= f.text_area :content
+              p= f.submit
+
+    hr
+    - @comment ||= RailsAdminComments::Comment.new
+    p
+      = form_for @comment, url: url, method: :post do |f|
+        - unless @message.blank?
+          p== @message
+        p= f.text_area :content
+        p= f.submit

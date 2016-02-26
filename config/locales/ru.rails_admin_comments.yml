@@ -1,0 +1,10 @@
+ru:
+  admin:
+    actions:
+      comments:
+        menu:           "Коментарии (%{rails_admin_comments_count})"
+        breadcrumb:     "Коментарии"
+        error:          "Ошибка"
+        error_no_data:  "Нет данных"
+        success:        "Успешно"
+        title:          "Коментарии"
