@@ -5,7 +5,9 @@ RailsAdmin::ApplicationHelper.class_eval do
     action = RailsAdmin::Config::Actions.find(action.to_sym) if action.is_a?(Symbol) || action.is_a?(String)
 
     rails_admin_comments_count = nil
-    rails_admin_comments_count = object.rails_admin_comments.enabled.for_user(current_user).count if object
+    if object and object.respond_to?(:rails_admin_comments)
+      rails_admin_comments_count = object.rails_admin_comments.enabled.for_user(current_user).count
+    end
 
     capitalize_first_letter I18n.t(
       "admin.actions.#{action.i18n_key}.#{label}",
