@@ -7,21 +7,30 @@
     - url = comments_path(model_name: @abstract_model, id: @object.id)
     .controls
       - @comments.each do |c|
-        p
-          = c.inspect
-          - edit_form_id = "comment_#{c.id}_edit"
-          = link_to 'edit', "##{edit_form_id}", class: 'comment_edit_form_link'
-          .comment_edit_form.hidden{id="#{edit_form_id}"}
-            - if @comment and @comment._id == c._id
-              - c = @comment
-              - unless @message.blank?
-                p== @message
-                - @comment = @message = nil
-              
-            = form_for c, url: url, method: :post do |f|
-              p= f.hidden_field :id
-              p= f.text_area :content
-              p= f.submit
+        .comment_block
+          - edit_form_id = "comment_#{c.id}_edit" 
+          p
+            - creator = c.creator
+            - if creator
+              - model_name = creator.class.to_param.gsub("::", "~").underscore
+              = link_to creator.name_for_rails_admin, show_path(model_name: model_name, id: creator._id), class: "creator_link"
+            span.created_at= Russian::strftime c.c_at, "%d.%m.%Y в %H:%M:%S"
+            span.updated_at= " (изм. #{Russian::strftime c.u_at, "%d.%m.%Y в %H:%M:%S"})" if Russian::strftime c.u_at
+            = link_to 'изменить', "##{edit_form_id}", class: 'comment_edit_form_link' if creator == current_user
+            p.content_block= c.content
+          p
+            .comment_edit_form.hidden{id="#{edit_form_id}"}
+              - if @comment and @comment._id == c._id
+                - c = @comment
+                - unless @message.blank?
+                  p== @message
+                  - @comment = @message = nil
+                
+              = form_for c, url: url, method: :post do |f|
+                p= f.hidden_field :id
+                p= f.text_area :content
+                p= f.submit
+          br
 
     hr
     - @comment ||= RailsAdminComments::Comment.new

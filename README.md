@@ -1,4 +1,4 @@
-# RailsAdminComments DEVELOPMENT VERSION (GEM IS NOT RELEASED)
+# RailsAdminComments DEVELOPMENT VERSION
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rails_admin_comments`. To experiment with that code, run `bin/console` for an interactive prompt.
 
@@ -22,7 +22,23 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Add in model what you need to be commentable
+
+```ruby
+  include RailsAdminComments::Commentable
+```
+
+And add action available for this model_name
+
+```ruby
+  comments do
+    visible do
+      [
+        "SomeModel"
+      ].include? bindings[:abstract_model].model_name
+    end
+  end
+```
 
 ## Development
 
@@ -32,10 +48,9 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rails_admin_comments.
+Bug reports and pull requests are welcome on GitHub at https://github.com/enjoycreative/rails_admin_comments.
 
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
