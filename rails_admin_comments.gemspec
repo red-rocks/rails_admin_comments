@@ -29,8 +29,8 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.10"
   spec.add_development_dependency "rake", "~> 10.0"
-
-  spec.add_dependency "rails"
+  
+  spec.add_dependency "rails_admin"
   spec.add_dependency "mongoid", [">= 5.0", "< 6.0"]
   spec.add_dependency "glebtv_mongoid_userstamp"
 end

@@ -2,9 +2,17 @@ ru:
   admin:
     actions:
       comments:
-        menu:           "Коментарии"
-        breadcrumb:     "Коментарии"
+        menu:           "Комментарии"
+        breadcrumb:     "Комментарии"
         error:          "Ошибка"
         error_no_data:  "Нет данных"
         success:        "Успешно"
-        title:          "Коментарии"
+        title:          "Комментарии"
+
+      model_comments:
+        menu:           "Комментарии"
+        breadcrumb:     "Комментарии"
+        error:          "Ошибка"
+        error_no_data:  "Нет данных"
+        success:        "Успешно"
+        title:          "Комментарии"

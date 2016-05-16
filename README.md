@@ -25,7 +25,8 @@ Or install it yourself as:
 Add in model what you need to be commentable
 
 ```ruby
-  include RailsAdminComments::Commentable
+  include RailsAdminComments::Commentable # comments for objects
+  include RailsAdminComments::ModelCommentable # comments for model (from v.0.2.0)
 ```
 
 And add action available for this model_name
@@ -38,9 +39,18 @@ And add action available for this model_name
       ].include? bindings[:abstract_model].model_name
     end
   end
+
+  # from v.0.2.0
+  model_comments do
+    visible do
+      [
+        "SomeModel"
+      ].include? bindings[:abstract_model].model_name
+    end
+  end
 ```
 
-Also you need to add method name_for_rails_admin_comments for user model_name 
+Also you need to add method name_for_rails_admin_comments for user model_name
 
 ```ruby
   def name_for_rails_admin_comments

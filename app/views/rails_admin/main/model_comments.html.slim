@@ -7,7 +7,7 @@
 
   #rails_admin_comments
 
-    - url = comments_path(model_name: @abstract_model, id: @object.id)
+    - url = model_comments_path(model_name: @abstract_model)
     .controls
       - @comments.each do |c|
         .comment_block
@@ -41,7 +41,7 @@
           br
 
     hr
-    - @comment ||= RailsAdminComments::Comment.new
+    - @comment ||= RailsAdminComments::ModelComment.new
     p
       - unless @message.blank?
         p== @message
