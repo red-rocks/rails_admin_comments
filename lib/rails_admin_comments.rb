@@ -1,4 +1,3 @@
-
 require "rails_admin_comments/version"
 
 require 'mongoid'
