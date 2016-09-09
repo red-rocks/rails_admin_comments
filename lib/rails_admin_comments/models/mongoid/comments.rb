@@ -9,7 +9,7 @@ module RailsAdminComments
 
         belongs_to :rails_admin_commentable, polymorphic: true
 
-        store_in collection: "rails_admin_comments"
+        store_in collection: "rails_admin_comments".freeze
 
         field :enabled, type: ::Mongoid::VERSION.to_i < 4 ? Boolean : ::Mongoid::Boolean, default: true
         scope :enabled, -> { where(enabled: true) }

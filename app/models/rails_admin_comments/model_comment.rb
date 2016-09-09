@@ -13,7 +13,7 @@ module RailsAdminComments
     end
 
     if RailsAdminComments.active_record?
-      self.table_name = "rails_admin_model_comments"
+      self.table_name = "rails_admin_model_comments".freeze
     end
 
   end
