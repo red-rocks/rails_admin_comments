@@ -7,11 +7,11 @@ Gem::Specification.new do |spec|
   spec.name          = "rails_admin_comments"
   spec.version       = RailsAdminComments::VERSION
   spec.authors       = ["Alexander Kiseliev"]
-  spec.email         = ["dev@enjoycreate.ru"]
+  spec.email         = ["dev@redrocks.pro"]
 
   spec.summary       = %q{Comments for rails_admin}
   spec.description   = %q{Comments for rails_admin}
-  spec.homepage      = "https://github.com/enjoycreative/rails_admin_comments"
+  spec.homepage      = "https://github.com/red-rocks/rails_admin_comments"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
