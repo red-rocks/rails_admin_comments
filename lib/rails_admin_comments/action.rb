@@ -43,22 +43,22 @@ module RailsAdmin
 
                     if @comment.save
                       @comment = nil
-                      @message = "<strong class='success'>#{I18n.t('admin.actions.comments.success')}!</strong>"
+                      @message = "<strong class='success'>#{I18n.t('admin.actions.comments.success')}!</strong>".freeze
 
                     else
                       @message = []
-                      @message << "<strong class='error'>#{I18n.t('admin.actions.comments.error')}!</strong>"
+                      @message << "<strong class='error'>#{I18n.t('admin.actions.comments.error')}!</strong>".freeze
                       @comment.errors.each do |e|
-                        @message << "<p>#{e.message}</p>"
+                        @message << "<p>#{e.message}</p>".freeze
                       end
-                      @message = @message.join
+                      @message = @message.join.html_safe.freeze
                     end
                   else
-                    @message = "<strong class='error'>#{I18n.t('admin.actions.comments.error')}</strong>:<p>#{I18n.t('admin.actions.comments.error_no_data')}</p>"
+                    @message = "<strong class='error'>#{I18n.t('admin.actions.comments.error')}</strong>:<p>#{I18n.t('admin.actions.comments.error_no_data')}</p>".freeze
                   end
 
                 rescue Exception => e
-                  @message = "<strong class='error'>#{I18n.t('admin.actions.comments.error')}</strong>: #{e}"
+                  @message = "<strong class='error'>#{I18n.t('admin.actions.comments.error')}</strong>: #{e}".freeze
                 end
 
                 render action: @action.template_name
@@ -120,22 +120,22 @@ module RailsAdmin
 
                   if @comment.save
                     @comment = nil
-                    @message = "<strong class='success'>#{I18n.t('admin.actions.model_comments.success')}!</strong>"
+                    @message = "<strong class='success'>#{I18n.t('admin.actions.model_comments.success')}!</strong>".freeze
 
                   else
                     @message = []
-                    @message << "<strong class='error'>#{I18n.t('admin.actions.model_comments.error')}!</strong>"
+                    @message << "<strong class='error'>#{I18n.t('admin.actions.model_comments.error')}!</strong>".freeze
                     @comment.errors.each do |e|
-                      @message << "<p>#{e.message}</p>"
+                      @message << "<p>#{e.message}</p>".freeze
                     end
-                    @message = @message.join
+                    @message = @message.join.html_safe.freeze
                   end
                 else
-                  @message = "<strong class='error'>#{I18n.t('admin.actions.model_comments.error')}</strong>:<p>#{I18n.t('admin.actions.model_comments.error_no_data')}</p>"
+                  @message = "<strong class='error'>#{I18n.t('admin.actions.model_comments.error')}</strong>:<p>#{I18n.t('admin.actions.model_comments.error_no_data')}</p>".freeze
                 end
 
               rescue Exception => e
-                @message = "<strong class='error'>#{I18n.t('admin.actions.comments.error')}</strong>: #{e}"
+                @message = "<strong class='error'>#{I18n.t('admin.actions.comments.error')}</strong>: #{e}".freeze
               end
 
               render action: @action.template_name
@@ -146,9 +146,9 @@ module RailsAdmin
               end
               if @comment and @comment.destroy
                 @comment = nil
-                @message = "Удалено"
+                @message = "Удалено".freeze
               else
-                @message = "Удаление не удалось"
+                @message = "Удаление не удалось".freeze
               end
               render action: @action.template_name
             end

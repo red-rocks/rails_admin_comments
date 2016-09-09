@@ -11,21 +11,21 @@
     .controls
       - @comments.each do |c|
         .comment_block
-          - edit_form_id = "comment_#{c.id}_edit" 
+          - edit_form_id = "comment_#{c.id}_edit".freeze
           p
             - creator = c.creator
             - if creator
-              - model_name = creator.class.to_param.gsub("::", "~").underscore
+              - model_name = creator.class.to_param.gsub("::", "~").underscore.freeze
               = link_to creator.name_for_rails_admin_comments, show_path(model_name: model_name, id: creator._id), class: "creator_link"
             span.created_at= Russian::strftime c.c_at, "%d.%m.%Y в %H:%M:%S"
-            span.updated_at= " (изм. #{Russian::strftime c.u_at, "%d.%m.%Y в %H:%M:%S"})" if Russian::strftime c.u_at
+            span.updated_at= " (изм. #{Russian::strftime c.u_at, "%d.%m.%Y в %H:%M:%S"})".freeze if Russian::strftime c.u_at
             - if creator == current_user or (current_user.respond_to?(:admin?) and current_user.admin?)
-              = link_to 'изменить', "##{edit_form_id}", class: 'comment_edit_form_link'  
+              = link_to 'изменить'.freeze, "##{edit_form_id}".freeze, class: 'comment_edit_form_link'.freeze
               = " | " 
-              = link_to 'удалить', "##{edit_form_id}",  class: 'comment_delete_form_link'
+              = link_to 'удалить'.freeze, "##{edit_form_id}".freeze,  class: 'comment_delete_form_link'.freeze
             p.content_block= c.content
           p
-            .comment_edit_form.hidden{id="#{edit_form_id}"}
+            .comment_edit_form.hidden{id=edit_form_id.freeze}
               - if @comment and @comment._id == c._id
                 - c = @comment
                 - unless @message.blank?
