@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "rails_admin_comments"
   spec.version       = RailsAdminComments::VERSION
   spec.authors       = ["Alexander Kiseliev"]
-  spec.email         = ["dev@redrocks.pro"]
+  spec.email         = ["i43ack@gmail.com"]
 
   spec.summary       = %q{Comments for rails_admin}
   spec.description   = %q{Comments for rails_admin}

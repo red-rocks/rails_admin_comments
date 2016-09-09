@@ -9,7 +9,7 @@ module RailsAdminComments
 
         field :model_name, type: String
 
-        store_in collection: "rails_admin_model_comments"
+        store_in collection: "rails_admin_model_comments".freeze
 
         field :enabled, type: ::Mongoid::VERSION.to_i < 4 ? Boolean : ::Mongoid::Boolean, default: true
         scope :enabled, -> { where(enabled: true) }

@@ -20,9 +20,9 @@
             span.created_at= Russian::strftime c.c_at, "%d.%m.%Y в %H:%M:%S".freeze
             span.updated_at= " (изм. #{Russian::strftime c.u_at, "%d.%m.%Y в %H:%M:%S"})".freeze if Russian::strftime c.u_at
             - if creator == current_user or (current_user.respond_to?(:admin?) and current_user.admin?)
-              = link_to 'изменить', "##{edit_form_id}".freeze, class: 'comment_edit_form_link'.freeze
+              = link_to 'изменить'.freeze, "##{edit_form_id}".freeze, class: 'comment_edit_form_link'.freeze
               = " | " 
-              = link_to 'удалить', "##{edit_form_id}".freeze,  class: 'comment_delete_form_link'.freeze
+              = link_to 'удалить'.freeze, "##{edit_form_id}".freeze,  class: 'comment_delete_form_link'.freeze
             p.content_block= c.content
           p
             .comment_edit_form.hidden{id=edit_form_id}
