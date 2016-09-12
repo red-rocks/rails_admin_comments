@@ -34,9 +34,9 @@ module RailsAdmin
                 begin
                   if params['rails_admin_comments_comment'].present?
                     if params['rails_admin_comments_comment']['id'].present?
-                      @comment = @object.rails_admin_comments.find(params['rails_admin_comments_comment']['id'])
+                      @comment = @object.rails_admin_comments.where(id: params['rails_admin_comments_comment']['id']).first
                     end
-                    @comment = @object.rails_admin_comments.new if @comment.nil?
+                    @comment ||= @object.rails_admin_comments.new
 
                     @comment.content = params['rails_admin_comments_comment']['content']
                     @comment.visible_for_user_ids = params['rails_admin_comments_comment']['visible_for_user_ids']
@@ -61,8 +61,24 @@ module RailsAdmin
                   @message = "<strong class='error'>#{I18n.t('admin.actions.comments.error')}</strong>: #{e}".freeze
                 end
 
+                @comments = @object.rails_admin_comments.by_date.enabled.for_user(current_user) || []
+                render action: @action.template_name
+
+              elsif request.delete?
+                if params['rails_admin_comments_comment']['id'].present?
+                  @comment = @object.rails_admin_comments.where(id: params['rails_admin_comments_comment']['id']).first
+                end
+                if @comment and @comment.destroy
+                  @comment = nil
+                  @message = "<strong class='success'>Удалено</strong>".freeze
+                else
+                  @message = "<strong class='error'>Удаление не удалось</strong>".freeze
+                end
+
+                @comments = @object.rails_admin_comments.by_date.enabled.for_user(current_user) || []
                 render action: @action.template_name
               end
+
             end
           end
         end
@@ -111,7 +127,7 @@ module RailsAdmin
               begin
                 if params['rails_admin_comments_model_comment'].present?
                   if params['rails_admin_comments_model_comment']['id'].present?
-                    @comment = @model.rails_admin_model_comments.find(params['rails_admin_comments_model_comment']['id'])
+                    @comment = @model.rails_admin_model_comments.where(id: params['rails_admin_comments_model_comment']['id']).first
                   end
                   @comment ||= @model.rails_admin_model_comments.new
 
@@ -138,18 +154,21 @@ module RailsAdmin
                 @message = "<strong class='error'>#{I18n.t('admin.actions.comments.error')}</strong>: #{e}".freeze
               end
 
+              @comments = @object.rails_admin_comments.by_date.enabled.for_user(current_user) || []
               render action: @action.template_name
 
             elsif request.delete?
               if params['rails_admin_comments_model_comment']['id'].present?
-                @comment = @model.rails_admin_model_comments.find(params['rails_admin_comments_model_comment']['id'])
+                @comment = @model.rails_admin_model_comments.where(id: params['rails_admin_comments_model_comment']['id']).first
               end
               if @comment and @comment.destroy
                 @comment = nil
-                @message = "Удалено".freeze
+                @message = "<strong class='success'>Удалено</strong>".freeze
               else
-                @message = "Удаление не удалось".freeze
+                @message = "<strong class='error'>Удаление не удалось</strong>".freeze
               end
+
+              @comments = @model.rails_admin_model_comments.by_date.enabled.for_user(current_user) || []
               render action: @action.template_name
             end
           end
