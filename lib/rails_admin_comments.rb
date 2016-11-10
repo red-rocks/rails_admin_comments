@@ -5,6 +5,9 @@ require 'mongoid_userstamp'
 
 require "rails_admin_comments/engine"
 
+require 'rails_admin/config/actions'
+require 'rails_admin/config/model'
+
 require 'rails_admin_comments/configuration'
 
 require 'rails_admin/config/actions'
