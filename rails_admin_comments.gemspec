@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.10"
   spec.add_development_dependency "rake", "~> 10.0"
 
-  spec.add_dependency "rails_admin", '~> 0.8.1'
-  spec.add_dependency "mongoid", [">= 5.0", "< 6.0"]
-  spec.add_dependency "glebtv_mongoid_userstamp", '~> 0.6.1'
+  spec.add_dependency "rails_admin", [">= 0.8.1", "< 1.1"]
+  spec.add_dependency "mongoid", [">= 5.0", "< 6.1"]
+  spec.add_dependency "glebtv_mongoid_userstamp", '~> 0.7.0'
 end
