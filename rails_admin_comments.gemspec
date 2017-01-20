@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "rails", '>= 5.0.0'
 
-  spec.add_dependency "rails_admin", ['>= 1.0.0.rc', "< 1.1"]
+  spec.add_dependency "rails_admin", ['>= 1.0.0.rc', "< 2.0"]
   spec.add_dependency "mongoid", [">= 6.0.0.rc0", "< 7.0"]
   spec.add_dependency "glebtv_mongoid_userstamp", '~> 0.7.0'
 end
