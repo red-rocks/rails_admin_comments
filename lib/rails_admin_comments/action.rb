@@ -154,7 +154,7 @@ module RailsAdmin
                 @message = "<strong class='error'>#{I18n.t('admin.actions.comments.error')}</strong>: #{e}".freeze
               end
 
-              @comments = @object.rails_admin_comments.by_date.enabled.for_user(current_user) || []
+              @comments = @model.rails_admin_model_comments.by_date.enabled.for_user(current_user) || []
               render action: @action.template_name
 
             elsif request.delete?
