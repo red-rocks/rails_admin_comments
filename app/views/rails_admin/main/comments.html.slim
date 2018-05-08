@@ -9,19 +9,30 @@
 
     - url = comments_path(model_name: @abstract_model, id: @object.id)
     .controls
+      - @comments = @comments.to_a
+      - @unread_comments = @comments.select { |c| c.unread_by?(current_user) }
+      - if @unread_comments.count > 0
+        - comment_ids = @unread_comments.map { |c| c.id.to_s }.join(",")
+        - mark_all_read_url = comments_path(model_name: @abstract_model, id: @object.id, mark_read_all: 1)
+        = link_to 'Отметить все как прочитанные'.freeze, "#".freeze, class: 'comment_mark_all_read_link'.freeze, data: {comment_ids: comment_ids, url: mark_all_read_url}
       - @comments.each do |c|
         .comment_block
           - edit_form_id = "comment_#{c.id}_edit".freeze
+          - read_by_current_user = c.read_by?(current_user)
           p
             - creator = c.creator
             - if creator
               - model_name = creator.class.to_param.gsub("::", "~").underscore.freeze
               = link_to creator.name_for_rails_admin_comments, show_path(model_name: model_name, id: creator._id), class: "creator_link"
             span.created_at= Russian::strftime c.c_at, "%d.%m.%Y в %H:%M:%S"
-            span.updated_at= " (изм. #{Russian::strftime c.u_at, "%d.%m.%Y в %H:%M:%S"})".freeze if Russian::strftime c.u_at
-            - if creator == current_user or (current_user.respond_to?(:admin?) and current_user.admin?)
+            span.updated_at= " (изм. #{Russian::strftime c.u_at, "%d.%m.%Y в %H:%M:%S"})".freeze if c.u_at and c.u_at != c.c_at
+            - unless read_by_current_user
+              = link_to 'отметить как прочитанный'.freeze, "##{edit_form_id}".freeze, class: 'comment_mark_read_form_link'.freeze
+            - if creator == current_user #or (current_user.respond_to?(:admin?) and current_user.admin? and !creator.admin?)
+              - unless read_by_current_user
+                = " | "
               = link_to 'изменить'.freeze, "##{edit_form_id}".freeze, class: 'comment_edit_form_link'.freeze
-              = " | " 
+              = " | "
               = link_to 'удалить'.freeze, "##{edit_form_id}".freeze,  class: 'comment_delete_form_link'.freeze
             p.content_block= c.content
           p
@@ -31,10 +42,12 @@
                 - unless @message.blank?
                   p== @message
                   - @comment = @message = nil
-                
+
               = form_for c, url: url, method: :post do |f|
                 - if current_user.admin?
-                  p= f.collection_check_boxes :visible_for_user_ids, available_users, :id, :name_for_rails_admin_comments
+                  p
+                    = f.collection_check_boxes :visible_for_user_ids, available_users, :id, :email do |input|
+                      = input.label { (input.text + input.check_box).html_safe }
                 p= f.hidden_field :id
                 p= f.text_area :content
                 p= f.submit
@@ -49,6 +62,8 @@
         - if current_user.admin?
           - if @comment.visible_for_users.blank?
             - @comment.visible_for_users << available_users.select { |u| u.roles.include?("admin")}
-          p= f.collection_check_boxes :visible_for_user_ids, available_users, :id, :email
+          p
+            = f.collection_check_boxes :visible_for_user_ids, available_users, :id, :email do |input|
+              = input.label { (input.text + input.check_box).html_safe }
         p= f.text_area :content
         p= f.submit

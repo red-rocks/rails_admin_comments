@@ -38,6 +38,8 @@ module RailsAdmin
                     end
                     @comment ||= @object.rails_admin_comments.new
 
+                    @comment.read_by(current_user) if ((params['rails_admin_comments_comment']['mark_read'] || params['mark_read']) == '1')
+
                     @comment.content = params['rails_admin_comments_comment']['content']
                     @comment.visible_for_user_ids = params['rails_admin_comments_comment']['visible_for_user_ids']
 
@@ -54,7 +56,12 @@ module RailsAdmin
                       @message = @message.join.html_safe.freeze
                     end
                   else
-                    @message = "<strong class='error'>#{I18n.t('admin.actions.comments.error')}</strong>:<p>#{I18n.t('admin.actions.comments.error_no_data')}</p>".freeze
+                    if params['mark_all_read'] == '1'
+                      @object.rails_admin_comments.unread(current_user).where("$and" => [{:id.in => params['comment_ids']}]).add_to_set(read_by_user_ids: current_user.id)
+
+                    else
+                      @message = "<strong class='error'>#{I18n.t('admin.actions.comments.error')}</strong>:<p>#{I18n.t('admin.actions.comments.error_no_data')}</p>".freeze
+                    end
                   end
 
                 rescue Exception => e
@@ -131,6 +138,8 @@ module RailsAdmin
                   end
                   @comment ||= @model.rails_admin_model_comments.new
 
+                  @comment.read_by(current_user) if ((params['rails_admin_comments_model_comment']['mark_read'] || params['mark_read']) == '1')
+
                   @comment.content = params['rails_admin_comments_model_comment']['content']
                   @comment.visible_for_user_ids = params['rails_admin_comments_model_comment']['visible_for_user_ids']
 
@@ -147,7 +156,11 @@ module RailsAdmin
                     @message = @message.join.html_safe.freeze
                   end
                 else
-                  @message = "<strong class='error'>#{I18n.t('admin.actions.model_comments.error')}</strong>:<p>#{I18n.t('admin.actions.model_comments.error_no_data')}</p>".freeze
+                  if params['mark_all_read'] == '1'
+                    @model.rails_admin_model_comments.unread(current_user).where("$and" => [{:id.in => params['comment_ids']}]).add_to_set(read_by_user_ids: current_user.id)
+                  else
+                    @message = "<strong class='error'>#{I18n.t('admin.actions.model_comments.error')}</strong>:<p>#{I18n.t('admin.actions.model_comments.error_no_data')}</p>".freeze
+                  end
                 end
 
               rescue Exception => e
